@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { ThemeProvider } from "@/themes/theme-provider";
 
  
 
@@ -14,11 +15,20 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
+        <link rel="icon" href="/paper-trail-logo.png" type="image/svg+xml" />
+
       <body
-        className={`  antialiased`}
+        className={` font-mono antialiased`}
       >
+<ThemeProvider
+                     attribute="class"
+                     defaultTheme="system"
+                     enableSystem
+                     disableTransitionOnChange
+                    >
         {children}
+</ThemeProvider>
       </body>
     </html>
   );

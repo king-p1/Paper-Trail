@@ -1,11 +1,16 @@
 "use client"
 import { FontFamilyButton } from '@/components/toolbar-extensions/font-family'
+import { FontSizeBtn } from '@/components/toolbar-extensions/font-size'
 import { HeadingLevelBtn } from '@/components/toolbar-extensions/heading-level'
 import { HighlightColorBtn } from '@/components/toolbar-extensions/highligh-color'
+import { ImageBtn } from '@/components/toolbar-extensions/image'
+import { LineHeightBtn } from '@/components/toolbar-extensions/line-height'
 import { LinkBtn } from '@/components/toolbar-extensions/link'
+import { ListBtn } from '@/components/toolbar-extensions/list'
+import { TextAlignBtn } from '@/components/toolbar-extensions/text-align'
 import { TextColorBtn } from '@/components/toolbar-extensions/text-color'
 import { Separator } from '@/components/ui/separator'
-import { useSections } from '@/constants'
+import { useSections } from '@/lib/constants'
 import { cn } from '@/lib/utils'
 import { useEditorStore } from '@/store/use-editor-store'
 import { ToolbarButtonProps } from '@/types'
@@ -30,7 +35,7 @@ export const Toolbar = () => {
 
 console.log('toolbar editor',{editor})
   return (
-    <div className='px-2.5 bg-[#F1F4F9] dark:bg-[#212324] py-0.5  overflow-x-auto flex items-center min-h-[40px] gap-x-0.5'>
+    <div className='px-2.5 bg-[#f8f8fa] dark:bg-[#212324] py-0.5  overflow-x-auto flex items-center min-h-[40px] gap-x-0.5 custom-scrollbar-2 '>
       {sections[0].map((item)=>(
         <ToolbarButton {...item} key={item.label}/>
       ))}
@@ -38,13 +43,19 @@ console.log('toolbar editor',{editor})
       <FontFamilyButton/>
       <Separator orientation='vertical' className='h-5 w-[1.3px]  bg-neutral-600'/>
       <HeadingLevelBtn/>
+      <Separator orientation='vertical' className='h-5 w-[1.3px]  bg-neutral-600'/>
+      <FontSizeBtn/>
       <Separator orientation='vertical' className='h-5 w-[1.8px]  bg-neutral-600'/>
-<TextColorBtn/> 
-<HighlightColorBtn /> 
       {sections[2].map((item)=>(
         <ToolbarButton {...item} key={item.label}/>
       ))}
       <LinkBtn/>
+<TextColorBtn/> 
+      <LineHeightBtn/>
+<TextAlignBtn/>
+<ListBtn/>
+<HighlightColorBtn /> 
+      <ImageBtn/>
       <Separator orientation='vertical' className='h-5 w-[1.6px]  bg-neutral-600'/>
       {sections[1].map((item)=>(
         <ToolbarButton {...item} key={item.label}/>

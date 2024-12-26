@@ -98,15 +98,11 @@ body {
 }
 
 
-.cl-internal-1l66zxt{
-  display: none;
-}
-
 .cl-internal-w4f4gh > :not(:first-of-type) {
   display: none;
 }
 
-.cl-internal-1l66zxt,.cl-internal-1hp5nqm {
+.cl-internal-1l66zxt,.cl-internal-1hp5nqm,.cl-internal-df7v37,.cl-internal-4x6jej > :not(:first-of-type),.dev-banner,.cl-internal-13hl4in {
   display: none;
 }
 
@@ -116,8 +112,8 @@ body {
 
 .custom-scrollbar::-webkit-scrollbar,
 .custom-scrollbar-2::-webkit-scrollbar {
-  width: 8px;
-  margin-left: 4px;
+  width: 2px;
+  height: 7px;
 }
 
 .custom-scrollbar::-webkit-scrollbar-track,
@@ -129,7 +125,7 @@ body {
 .custom-scrollbar::-webkit-scrollbar-thumb,
 .custom-scrollbar-2::-webkit-scrollbar-thumb {
   background: #888;
-  border-radius: 4px;
+  width: 2px;
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
@@ -351,6 +347,18 @@ list-style-type: decimal;
     }
   }
 
+  hr {
+    border: none;
+    border-top: 1px solid var(--gray-2);
+    margin: 2rem 0;
+  }
+
+  [data-type="emoji"] {
+    img {
+      height: 1em;
+      width: 1em;
+    }
+  }
 
 
 

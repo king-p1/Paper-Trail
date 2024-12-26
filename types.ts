@@ -1,17 +1,56 @@
-import { LucideIcon } from "lucide-react"
-import React from "react"
-import { IconType } from "react-icons/lib"
+import { LucideIcon } from "lucide-react";
+import React, { ReactNode } from "react";
+import { IconType } from "react-icons/lib";
 import { type Editor } from "@tiptap/react";
+import { Doc, Id } from "./convex/_generated/dataModel";
+import { PaginationStatus } from "convex/react";
 
 export interface ToolbarButtonProps {
-    onClick?:()=>void
-    isActive?:boolean
-    icon: LucideIcon | IconType | React.ElementType 
+  onClick?: () => void;
+  isActive?: boolean;
+  icon: LucideIcon | IconType | React.ElementType;
 }
 
-     
-
 export interface EditorState {
-    editor : Editor | null
-    setEditor:(editor:Editor | null) => void
+  editor: Editor | null;
+  setEditor: (editor: Editor | null) => void;
+}
+
+export interface MarkerProps {
+  position: number;
+  onMouseDown: () => void;
+  onDoubleClick: () => void;
+  isDragging: boolean;
+  isLeft: boolean;
+}
+
+export type TableProps = {
+  rows: number;
+  cols: number;
+};
+
+export interface PDFExportOptions {
+  filename?: string;
+  margin?: number;
+  quality?: number;
+  scale?: number;
+}
+
+export interface TrailTableProps {
+  trails: Doc<"documents">[] | undefined; // Update this to the correct type if known
+  loadMore: (numItems: number) => void;
+  status: PaginationStatus;
+}
+export interface TrailRowProps {
+  trail: Doc<"documents">; // Update this to the correct type if known
+}
+export interface TrailDropdownProps {
+  trailId: Id<"documents">;
+  title: string;
+  onNewTab: (id: Id<"documents">) => void;
+}
+
+export interface DeleteDialogProps {
+  trailId: Id<"documents">;
+ children: ReactNode
 }

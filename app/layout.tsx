@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { ThemeProvider } from "@/themes/theme-provider";
-
- 
+import { NuqsAdapter } from "nuqs/adapters/next/app";
+import { ConvexClientProvider } from "@/components/convex-provider";
+import { ClerkProvider } from "@clerk/nextjs";
 
 export const metadata: Metadata = {
   title: "PaperTrail",
@@ -15,20 +16,21 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
+       
     <html lang="en" suppressHydrationWarning>
-        <link rel="icon" href="/paper-trail-logo.png" type="image/svg+xml" />
+      <link rel="icon" href="/paper-trail-logo.png" type="image/svg+xml" />
 
-      <body
-        className={` font-mono antialiased`}
-      >
-<ThemeProvider
-                     attribute="class"
-                     defaultTheme="system"
-                     enableSystem
-                     disableTransitionOnChange
-                    >
-        {children}
-</ThemeProvider>
+      <body className={` font-mono antialiased`}>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+            <ConvexClientProvider>
+              <NuqsAdapter>{children}</NuqsAdapter>
+            </ConvexClientProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

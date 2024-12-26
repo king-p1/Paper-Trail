@@ -22,6 +22,6 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "components/toolbar-extensions/emoji/suggestion.js", "components/toolbar-extensions/emoji/emoji-list.jsx"],
   "exclude": ["node_modules"]
 }

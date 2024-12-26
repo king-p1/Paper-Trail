@@ -2,7 +2,7 @@ import { IconType } from "react-icons/lib";
 import { LuUndo,LuRedo } from "react-icons/lu";
 import React from 'react'
 import { LucideIcon } from "lucide-react";
-import { useEditorStore } from "./store/use-editor-store";
+import { useEditorStore } from "../store/use-editor-store";
 import { IoPrintOutline } from "react-icons/io5";
 import { TbTextSpellcheck } from "react-icons/tb";
 import { HiBold } from "react-icons/hi2";
@@ -124,5 +124,36 @@ export const useSections = () => {
     return sections;
 }
 
-
+export const templates = [
+    {
+    id:'blank',
+    label:'Blank Trail',
+    imageUrl:'/blank-document.svg'
+},
+    {
+    id:'sofware-proposal',
+    label:'Software proposal',
+    imageUrl:'/software-proposal.svg'
+},
+    {
+    id:'project',
+    label:'Project',
+    imageUrl:'/project-proposal.svg'
+},
+    {
+    id:'cover',
+    label:'Cover letter',
+    imageUrl:'/cover-letter.svg'
+},
+    {
+    id:'resume',
+    label:'Resume letter',
+    imageUrl:'/resume.svg'
+},
+    {
+    id:'letter',
+    label:'Letter  ',
+    imageUrl:'/letter.svg'
+},
+]
 

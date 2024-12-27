@@ -12,7 +12,6 @@ import { TextColorBtn } from '@/components/toolbar-extensions/text-color'
 import { Separator } from '@/components/ui/separator'
 import { useSections } from '@/lib/constants'
 import { cn } from '@/lib/utils'
-import { useEditorStore } from '@/store/use-editor-store'
 import { ToolbarButtonProps } from '@/types'
 import React from 'react'
 
@@ -31,9 +30,7 @@ return(
 
 export const Toolbar = () => {
   const sections = useSections()
-  const { editor} = useEditorStore()
 
-console.log('toolbar editor',{editor})
   return (
     <div className='px-2.5 bg-[#f8f8fa] dark:bg-[#212324] py-0.5  overflow-x-auto flex items-center min-h-[40px] gap-x-0.5 custom-scrollbar-2 '>
       {sections[0].map((item)=>(

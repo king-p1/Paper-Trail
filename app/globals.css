@@ -97,12 +97,34 @@ body {
   @apply flex h-screen w-full flex-col items-center justify-center gap-10 bg-neutral-900;
 }
 
+.floating-threads {
+  display: none;
+}
+
+/* For desktop */
+.anchored-threads {
+  display: block;
+  max-width: 300px;
+  width: 100%;
+  position: absolute;
+  right: 12px;
+}
+
+@media (max-width: 640px) {
+  .floating-threads {
+    display: block;
+  }
+
+  .anchored-threads {
+    display: none;
+  }
+}
 
 .cl-internal-w4f4gh > :not(:first-of-type) {
   display: none;
 }
 
-.cl-internal-1l66zxt,.cl-internal-1hp5nqm,.cl-internal-df7v37,.cl-internal-4x6jej > :not(:first-of-type),.dev-banner,.cl-internal-13hl4in {
+.cl-internal-1l66zxt,.cl-internal-1hp5nqm,.cl-internal-df7v37,.cl-internal-4x6jej > :not(:first-of-type),.dev-banner,.cl-internal-13hl4in,.cl-internal-4x6jej > :first-of-type  {
   display: none;
 }
 

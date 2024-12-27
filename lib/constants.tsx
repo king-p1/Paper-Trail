@@ -104,8 +104,8 @@ export const useSections = () => {
             {
                 label: 'Message',
                 icon: LuMessagesSquare,
-                isActive:false,
-                onClick: () => console.log('comment')
+                onClick: () => editor?.chain().focus().addPendingComment().run(),
+                isActive:editor?.isActive("liveblocksCommentMark"),
             },  
             {
                 label: 'Task List',
@@ -156,4 +156,18 @@ export const templates = [
     imageUrl:'/letter.svg'
 },
 ]
+
+
+export const getCleanErrorMessage = (error: unknown): string => {
+    if (error instanceof Error) {
+      // Extract message between "ConvexError:" and "at handler"
+      const match = error.message.match(/ConvexError: (.*?)(?= at handler|\s*$)/);
+      if (match && match[1]) {
+        return match[1].trim();
+      }
+      return error.message;
+    }
+    return 'An unexpected error occurred';
+  };
+
 

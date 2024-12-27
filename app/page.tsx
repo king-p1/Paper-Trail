@@ -4,15 +4,18 @@ import { SearchInput } from '@/components/search-input'
 import { TemplateGallery } from '@/components/template-gallery'
 import { TrailTable } from '@/components/table-components/trails-table'
 import { api } from '@/convex/_generated/api'
-import { SignedIn, UserButton } from '@clerk/clerk-react'
+import { SignedIn, UserButton,OrganizationSwitcher } from '@clerk/clerk-react'
 import {  usePaginatedQuery } from 'convex/react'
 import React from 'react'
 import { TbLoader3 } from 'react-icons/tb'
+import { useSearchParams } from '@/hooks/use-seearch-param'
 
 
 const Home = () => {
 
-  const {loadMore,isLoading,results,status} = usePaginatedQuery(api.document.getPaperTrails,{},{initialNumItems:4})
+const [search] = useSearchParams()
+
+  const {loadMore,isLoading,results,status} = usePaginatedQuery(api.document.getPaperTrails,{search},{initialNumItems:4})
 
 
 
@@ -23,6 +26,12 @@ const Home = () => {
       <HomeNav/>
       <SearchInput/>
     <SignedIn>
+    <OrganizationSwitcher
+    afterCreateOrganizationUrl='/'
+    afterLeaveOrganizationUrl='/'
+    afterSelectOrganizationUrl='/'
+    afterSelectPersonalUrl='/'
+    />
       <UserButton/>
     </SignedIn>
       </div>

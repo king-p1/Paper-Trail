@@ -2,18 +2,21 @@ import { TrailRowProps } from "@/types";
 import React from "react";
 import { TableCell, TableRow } from "../ui/table";
 import { TbPaperBag } from "react-icons/tb";
-import { Building2Icon, CircleUserIcon } from "lucide-react";
+import { Building2Icon, CircleUserIcon, Router } from "lucide-react";
 import { format } from "date-fns";
 import { TrailDropdown } from "./trail-dropdown";
+import { useRouter } from "next/navigation";
 
 export const TrailRow = ({ trail }: TrailRowProps) => {
   const { _creationTime, _id, ownerId, title, organizationId, roomId } = trail;
 
-const onNewTabClick = (id :string) =>{
-window.open(`/trail/${id}`, "_blank")
- }
+  const router = useRouter()
+
+ 
   return (
-    <TableRow className="cursor-pointer">
+    <TableRow className="cursor-pointer"
+    onClick={()=>router.push(`/trail/${_id}`)}
+    >
       <TableCell className="w-[12px]">
         <TbPaperBag size={25} className="text-neutral-700" />
       </TableCell>
@@ -33,7 +36,8 @@ window.open(`/trail/${id}`, "_blank")
         <TrailDropdown
         trailId={_id}
         title={title}
-        onNewTab={onNewTabClick}
+        onNewTab={()=>window.open(`/trail/${_id}`, "_blank")
+      }
         />
       </TableCell>
     </TableRow>

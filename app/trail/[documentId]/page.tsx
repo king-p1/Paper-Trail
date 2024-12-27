@@ -2,6 +2,7 @@ import React from 'react'
 import { Editor } from './tools/editor'
 import { Toolbar } from './tools/toolbar'
 import { Navbar } from '@/components/navigations/navbar'
+import { Room } from './room'
 
 interface TrailIdPageProps {
     params :Promise<{trailId : string}>
@@ -19,7 +20,9 @@ const TrailIdPage = async({params}:TrailIdPageProps) => {
       </div>
 
       <div className="pt-[130px] print:pt-0">
+        <Room>
     <Editor/>
+        </Room>
       </div>
     </div>
   )

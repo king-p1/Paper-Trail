@@ -3,7 +3,10 @@ import "./globals.css";
 import { ThemeProvider } from "@/themes/theme-provider";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
 import { ConvexClientProvider } from "@/components/convex-provider";
-import { ClerkProvider } from "@clerk/nextjs";
+import { Toaster } from "sonner";
+import "@liveblocks/react-ui/styles.css";
+import "@liveblocks/react-tiptap/styles.css";
+import "./globals.css";
 
 export const metadata: Metadata = {
   title: "PaperTrail",
@@ -12,7 +15,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: Readonly<{ 
   children: React.ReactNode;
 }>) {
   return (
@@ -28,7 +31,11 @@ export default function RootLayout({
           disableTransitionOnChange
         >
             <ConvexClientProvider>
-              <NuqsAdapter>{children}</NuqsAdapter>
+              <NuqsAdapter>{children}
+                <Toaster
+                position="top-right"
+                />
+              </NuqsAdapter>
             </ConvexClientProvider>
         </ThemeProvider>
       </body>

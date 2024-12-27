@@ -10,6 +10,7 @@ import {
 import { TrailTableProps } from "@/types";
 import { TbLoader3 } from "react-icons/tb";
 import { TrailRow } from "./trail-row";
+import { Button } from "../ui/button";
 
 export const TrailTable = ({ trails, loadMore, status }: TrailTableProps) => {
   if (trails === undefined) {
@@ -51,6 +52,15 @@ export const TrailTable = ({ trails, loadMore, status }: TrailTableProps) => {
           </TableBody>
         )}
       </Table>
+      <div className="flex items-center justify-center">
+        <Button 
+        disabled={status !== "CanLoadMore"}
+        onClick={()=>loadMore(5)}
+        size='sm'
+        >
+{status === 'CanLoadMore' ? 'Load more' : 'All trails have been loaded'}
+        </Button>
+      </div>
     </div>
   );
 };

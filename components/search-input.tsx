@@ -4,7 +4,7 @@ import React, { useRef, useState } from "react";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import { useSearchParams } from "@/hooks/use-seearch-param";
-
+ 
 export const SearchInput = () => {
   const [search, setSearch] = useSearchParams();
   const [value, setValue] = useState(search);

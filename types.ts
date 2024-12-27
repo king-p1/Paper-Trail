@@ -54,3 +54,9 @@ export interface DeleteDialogProps {
   trailId: Id<"documents">;
  children: ReactNode
 }
+
+export interface RenameDialogProps {
+  trailId: Id<"documents">;
+ children: ReactNode;
+ initialTitle:string
+}

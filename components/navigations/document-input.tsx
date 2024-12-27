@@ -9,7 +9,6 @@ import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { ConvexError } from "convex/values";
 import { RxUpdate } from "react-icons/rx";
-import { ChartNoAxesCombinedIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export const DocumentInput = () => {
@@ -55,7 +54,7 @@ export const DocumentInput = () => {
           onChange={(e) => setTitle(e.target.value)}
           disabled={renaming}
           placeholder="Enter trail title"
-          className={cn("border-none", renaming && "border")}
+          className={cn("border-none shadow-none", renaming && "border")}
         />
 
         <span className="text-lg px-1.5 cursor-pointer truncate">

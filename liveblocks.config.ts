@@ -22,6 +22,7 @@ declare global {
         name: string;
         color: string;
         avatar: string;
+        role: string;
 
         // Your custom metadata
         // ...

@@ -23,7 +23,7 @@ href='/'
         />
         </Link>
 
-        <div className="flex flex-col -ml-3">
+        <div className="flex flex-col -ml-4">
 <DocumentInput/>
 <MenuBar/>
         </div>

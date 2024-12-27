@@ -47,7 +47,15 @@ if(organizationId){
   },
 });
 
-export const getPaperTrailById = query({}) 
+export const getPaperTrailById = query({
+  args:{id:v.id("documents")},
+  handler: async (ctx,{id}) => {
+    const trail = await ctx.db.get(id)
+    if (!trail) throw new ConvexError("Trail not found");
+
+    return trail
+  },
+}) 
 
 export const createPaperTail = mutation({
   args: {

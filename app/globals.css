@@ -124,7 +124,13 @@ body {
   display: none;
 }
 
-.cl-internal-1l66zxt,.cl-internal-1hp5nqm,.cl-internal-df7v37,.cl-internal-4x6jej > :not(:first-of-type),.dev-banner,.cl-internal-13hl4in,.cl-internal-4x6jej > :first-of-type  {
+.cl-internal-1l66zxt,
+.cl-internal-1hp5nqm,
+.cl-internal-df7v37,
+.cl-internal-4x6jej > :not(:first-of-type),
+.dev-banner,
+.cl-internal-13hl4in,
+.cl-internal-4x6jej > :first-of-type {
   display: none;
 }
 
@@ -158,12 +164,10 @@ body {
   background: #797878;
 }
 
-
 .tiptap {
   :first-child {
     margin-top: 0;
   }
-   
 
   blockquote {
     border-left: 3px solid var(--primary);
@@ -175,7 +179,7 @@ body {
     background: var(--black);
     border-radius: 0.5rem;
     color: var(--white);
-    font-family: 'JetBrainsMono', monospace;
+    font-family: "JetBrainsMono", monospace;
     margin: 1.5rem 0;
     padding: 0.75rem 1rem;
 
@@ -187,66 +191,68 @@ body {
     }
   }
   /* List styles */
-  ul, 
+  ul,
   ol {
     padding: 0 1rem;
     margin: 1.25rem 1rem 1.25rem 0.4rem;
   }
 
-  ul li{
-list-style-type: disc;
-     p {
+  ul li {
+    list-style-type: disc;
+    p {
       margin-top: 0.25em;
       margin-bottom: 0.25em;
     }
   }
 
-  ol li{
-list-style-type: decimal;
-     p {
+  ol li {
+    list-style-type: decimal;
+    p {
       margin-top: 0.25em;
       margin-bottom: 0.25em;
     }
   }
-  h1, 
-  h2, 
-  h3, 
-  h4, 
-  h5, 
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
   h6 {
     line-height: 1.1;
     margin-top: 2.5rem;
     text-wrap: pretty;
   }
 
-  h1, 
-  h2,h3,h4,h5,h6 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     margin-top: 2.5rem;
     margin-bottom: 1.5rem;
   }
 
-  h1 { 
-    font-size: 2.4rem; 
+  h1 {
+    font-size: 2.4rem;
   }
 
-  h2 { 
-    font-size: 2.1rem; 
+  h2 {
+    font-size: 2.1rem;
   }
 
-  h3 { 
-    font-size: 1.9rem; 
+  h3 {
+    font-size: 1.9rem;
   }
 
-  h5{
-    
-    font-size: 1.6rem; 
-  } 
-  h4{
-    
-    font-size: 1.3rem; 
-  } 
-  h6 { 
-    font-size: 1rem; 
+  h5 {
+    font-size: 1.6rem;
+  }
+  h4 {
+    font-size: 1.3rem;
+  }
+  h6 {
+    font-size: 1rem;
   }
 
   ul[data-type="taskList"] {
@@ -308,7 +314,10 @@ list-style-type: decimal;
     .selectedCell:after {
       background: var(--gray-2);
       content: "";
-      left: 0; right: 0; top: 0; bottom: 0;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
       pointer-events: none;
       position: absolute;
       z-index: 2;
@@ -354,7 +363,7 @@ list-style-type: decimal;
   }
 
   mark {
-    background-color: #FAF594;
+    background-color: #faf594;
     border-radius: 0.4rem;
     box-decoration-break: clone;
     padding: 0.1rem 0.3rem;
@@ -365,7 +374,7 @@ list-style-type: decimal;
     cursor: pointer;
 
     &:hover {
-@apply underline; 
+      @apply underline;
     }
   }
 
@@ -381,15 +390,8 @@ list-style-type: decimal;
       width: 1em;
     }
   }
+}
 
-
-
-
-
-
-
-
-
-
-
+div[data-radix-popper-content-wrapper] {
+  z-index: 50 !important;
 }

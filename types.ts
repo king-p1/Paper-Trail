@@ -3,7 +3,8 @@ import React, { ReactNode } from "react";
 import { IconType } from "react-icons/lib";
 import { type Editor } from "@tiptap/react";
 import { Doc, Id } from "./convex/_generated/dataModel";
-import { PaginationStatus } from "convex/react";
+import { PaginationStatus, Preloaded } from "convex/react";
+import { api } from "./convex/_generated/api";
 
 export interface ToolbarButtonProps {
   onClick?: () => void;
@@ -52,19 +53,36 @@ export interface TrailDropdownProps {
 
 export interface DeleteDialogProps {
   trailId: Id<"documents">;
- children: ReactNode
+  children: ReactNode;
 }
 
 export interface RenameDialogProps {
   trailId: Id<"documents">;
- children: ReactNode;
- initialTitle:string
+  children: ReactNode;
+  initialTitle: string;
 }
 
-export type User ={
-  id:string
-   name: string;
+export interface AvatarProps {
+  src: string;
+  name: string;
+}
+
+export interface TrailProps {
+  preloadedTrail: Preloaded<typeof api.document.getPaperTrailById>;
+}
+
+export interface NavProps {
+  trailData: Doc<"documents">;
+}
+
+export interface TrailIdPageProps {
+  params: Promise<{ documentId: Id<"documents"> }>;
+}
+
+export type User = {
+  id: string;
+  name: string;
   color: string;
   avatar: string;
   role: string;
-}
+};

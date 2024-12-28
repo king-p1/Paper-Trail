@@ -19,7 +19,7 @@ import { Button } from "../ui/button";
 import { ConvexError } from "convex/values";
 
 export const RenameDialog = ({ children, trailId, initialTitle }: RenameDialogProps) => {
-  const updateTail = useMutation(api.document.updatePaperTailById);
+  const updateTrail = useMutation(api.document.updatePaperTailById);
   const [open, setOpen] = useState(false);
   const [renaming, setRenaming] = useState(false);
   const [title, setTitle] = useState<string>(initialTitle);
@@ -30,7 +30,7 @@ export const RenameDialog = ({ children, trailId, initialTitle }: RenameDialogPr
     setRenaming(true);
     
     try {
-      await updateTail({ 
+      await updateTrail({ 
         id: trailId, 
         title: title.trim() || 'Untitled' 
       });

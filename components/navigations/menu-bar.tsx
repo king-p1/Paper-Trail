@@ -35,13 +35,15 @@ import { useEditorStore } from "@/store/use-editor-store";
 import { Button } from "../ui/button";
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
-import  { PDFExportOptions} from '@/types' 
+import  { NavProps, PDFExportOptions} from '@/types' 
 import { toast } from "sonner";
 
-export const MenuBar = () => {
+export const MenuBar =  ({trailData}:NavProps) => {
     const { editor } = useEditorStore();
     const [rows, setRows] = useState<number>(2); // Default to 2x2 table
     const [cols, setCols] = useState<number>(2);
+
+    const {title} = trailData
   
     const handleInputClick = (e: React.MouseEvent) => {
       e.stopPropagation();
@@ -101,7 +103,7 @@ export const MenuBar = () => {
         const blob = new Blob([JSON.stringify(content)],{
             type:"application/json"
         })
-        onDownload(blob,`download.json`)
+        onDownload(blob,`${title}.json`)
     }
     
     const onExpToHTML =()=>{
@@ -111,7 +113,7 @@ export const MenuBar = () => {
         const blob = new Blob([content],{
             type:"text/html"
         })
-        onDownload(blob,`download.html`)
+        onDownload(blob,`${title}.html`)
     }
     
     const exportToPDF = async (
@@ -131,7 +133,7 @@ export const MenuBar = () => {
       
           // Default options
           const {
-            filename = 'document.pdf',
+            filename = `${title}.pdf`,
             margin = 10,
             quality = 2,
             scale = 2
@@ -215,13 +217,14 @@ export const MenuBar = () => {
     //   };
       
       // If you need to handle the PDF as a blob instead:
+     
       const onExportToPDFAsBlob = async () => {
         if (!editor) return;
       
         try {
           const pdf = await exportToPDF(editor);
           const blob = pdf.output('blob');
-          onDownload(blob, 'document.pdf');
+          onDownload(blob, `${title}.pdf`);
         } catch (error) {
           console.error('Error generating PDF blob:', error);
           toast.error('Failed to generate PDF');
@@ -236,7 +239,7 @@ export const MenuBar = () => {
         const blob = new Blob([content],{
             type:"text/plain"
         })
-        onDownload(blob,`download.txt`)
+        onDownload(blob,`${title}.txt`)
     }
 
 

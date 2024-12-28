@@ -20,7 +20,7 @@ loading="lazy"
 
 />
 
-        <p className="font-semibold text-4xl text-red-500 ">
+        <p className="font-semibold text-3xl p-1.5 text-red-500 text-center ">
        {error.message}
         </p>
 

@@ -2,6 +2,12 @@
 
 import { auth,clerkClient } from "@clerk/nextjs/server"
 import { generateUserColor } from "./constants"
+import { ConvexHttpClient } from "convex/browser"
+import { Id } from "@/convex/_generated/dataModel";
+import { api } from "@/convex/_generated/api";
+
+const convex = new ConvexHttpClient(process.env.NEXT_PUBLIC_CONVEX_URL!);
+
 
 export const getUsers = async() => {
     const {sessionClaims} = await auth()
@@ -23,4 +29,8 @@ export const getUsers = async() => {
 
 return users
 
+}
+
+export const getTrails = async(ids:Id<"documents">[]) => {
+    return await convex.query(api.document.getPaperTrailsByIds,{ids})
 }

@@ -1,31 +1,25 @@
-import React from 'react'
-import { Editor } from './tools/editor'
-import { Toolbar } from './tools/toolbar'
-import { Navbar } from '@/components/navigations/navbar'
-import { Room } from './room'
+import { TrailIdPageProps } from "@/types";
+import { Trail } from "./document";
+import { auth } from "@clerk/nextjs/server";
+import { preloadQuery } from "convex/nextjs";
+import { api } from "@/convex/_generated/api";
 
-interface TrailIdPageProps {
-    params :Promise<{trailId : string}>
-}
+const TrailIdPage = async ({ params }: TrailIdPageProps) => {
+  const { documentId } = await params;
+  const { getToken } = await auth();
 
-const TrailIdPage = async({params}:TrailIdPageProps) => {
- 
+  const token =  await getToken({ template: "convex" })  ?? undefined;
 
-  return (
-        <Room>
-    <div className='min-h-screen '>
-      <div className="flex print:hidden flex-col pt-1 fixed top-0 right-0 left-0 z-10 bg-[#f8f8fa] gap-y-2">
+  if (!token) throw new Error("User is unauthorized.");
+  
+  const preloadedTrail = await preloadQuery(
+    api.document.getPaperTrailById,
+    { id: documentId },
+    { token }
+  );
+  if (!preloadedTrail) throw new Error("Trail not found.");
 
-      <Navbar/>
-        <Toolbar/>
-      </div>
+  return <Trail preloadedTrail={preloadedTrail} />;
+};
 
-      <div className="pt-[130px] print:pt-0">
-    <Editor/>
-      </div>
-    </div>
-        </Room>
-  )
-}
-
-export default TrailIdPage
+export default TrailIdPage;

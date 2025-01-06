@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Extension } from "@tiptap/react";
 import "@tiptap/extension-text-style";
 
@@ -43,7 +44,7 @@ addCommands() {
         setFontSize: (fontSize: string) => ({ chain }) => {
             return chain().setMark("textStyle", { fontSize }).run()
         },
-        unsetFontSize: () => ({ chain }) => {
+        unsetFontSize: () => ({ chain }: { chain: any }) => {
             return chain().setMark("textStyle", { fontSize: null }).removeEmptyTextStyle().run()
         },
     }

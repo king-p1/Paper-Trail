@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Extension } from "@tiptap/react";
 
 declare module "@tiptap/core" {
@@ -54,13 +55,13 @@ tr= tr.setNodeMarkup(pos,undefined,{
                 if(dispatch) dispatch(tr)
                     return true
             },
-            unsetLineHeight: ()   => ({ tr,state,dispatch }) => {
+            unsetLineHeight: ()   => ({ tr,state,dispatch }: { tr: any, state: any, dispatch: any }) => {
                 const {selection} = state
                 tr = tr.setSelection(selection)
 
                 const {from,to} = selection
 
-                state.doc.nodesBetween(from,to,(node,pos)=>{
+                state.doc.nodesBetween(from,to,(node: { type: { name: any; }; attrs: any; },pos: any)=>{
                     if(this.options.types.includes(node.type.name)){
 tr= tr.setNodeMarkup(pos,undefined,{
     ...node.attrs,lineHeight:this.options.defaultLineHeight

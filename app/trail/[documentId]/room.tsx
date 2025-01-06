@@ -77,7 +77,7 @@ export function Room({ children }: { children: ReactNode }) {
       >
         <ClientSideSuspense
           fallback={
-            <div className="h-[65vh] w-full flex items-center justify-center">
+            <div className="h-[95vh] w-full flex items-center justify-center">
               <TbLoader3 size={56} className="animate-spin" />
             </div>
           }

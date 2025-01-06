@@ -9,12 +9,19 @@ import {
 import { api } from "@/convex/_generated/api";
 import { templates } from "@/lib/constants";
 import { cn } from "@/lib/utils";
-import { useMutation } from "convex/react";
+import { useMutation, useQuery } from "convex/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export const TemplateGallery = () => {
   const [isCreating,setIsCreating] = useState<boolean>(false);
+
+
+  const user = useQuery(api.document.UserByConvex);
+
+
+  const isAdmin = user?.organization_id && user?.organization_role === "org:admin";
+  const isPersonalTrail = user?.organization_id === null || user?.organization_id === "null";
 
   const router = useRouter()
 
@@ -43,17 +50,19 @@ export const TemplateGallery = () => {
                 <div
                   className={cn(
                     "aspect-[3/4] flex flex-col gap-y-2.5",
-                    isCreating && "pointer-events-none opacity-50"
+                    isCreating && "pointer-events-none opacity-50",!isAdmin && 'cursor-not-allowed', isAdmin && isPersonalTrail && 'cursor-pointer'
                   )}
                 >
-                  <button disabled={isCreating} onClick={() => onTemplateClick(label,"")}
+                  <button 
+                    disabled={isCreating || (!isAdmin && !isPersonalTrail)}
+                    onClick={() => onTemplateClick(label, "")}
                     style={{
                         backgroundImage:`url(${imageUrl})`,
                         backgroundSize:'cover',
                         backgroundPosition:"center",
                         backgroundRepeat:'no-repeat'
                     }}
-                    className="size-full rounded-sm border transition flex flex-col items-center justify-center gap-y-4 bg-white"
+                    className={cn("size-full rounded-sm border cursor-pointer transition flex flex-col items-center justify-center gap-y-4 bg-white", !isAdmin && !isPersonalTrail && 'cursor-not-allowed' )}
                    />
                     <p className="text-sm font-medium truncate">{label}</p>
                 </div>

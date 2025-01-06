@@ -18,8 +18,12 @@ import { useState } from "react";
 import { toast } from "sonner";
 import { ConvexError } from "convex/values";
 import { getCleanErrorMessage } from "@/lib/constants";
+import { useRouter } from "next/navigation";
 
 export const DeleteDialog = ({children, trailId}: DeleteDialogProps) => {
+
+  const router = useRouter()
+
   const deleteTrail = useMutation(api.document.removePaperTailById)
   const [isDeleting, setisDeleting] = useState(false)
 
@@ -30,11 +34,12 @@ export const DeleteDialog = ({children, trailId}: DeleteDialogProps) => {
     try {
       await deleteTrail({id: trailId})
       toast.success('Trail deleted successfully')
+      router.push('/')
     } catch (error) {
       console.log(error)
       if (error instanceof ConvexError) {
         const errorMessage = getCleanErrorMessage(error);
-      toast.error(errorMessage);
+        toast.error(errorMessage);
       } else if (error instanceof Error) {
         const errorMessage = getCleanErrorMessage(error);
         toast.error(errorMessage);
@@ -44,6 +49,7 @@ export const DeleteDialog = ({children, trailId}: DeleteDialogProps) => {
       }
     } finally {
       setisDeleting(false)
+      router.push('/')
     }
   }
 

@@ -4,7 +4,7 @@ import React from 'react'
 const SignInPage = () => {
   return (
     <main className='auth-page'><SignIn
-    signUpFallbackRedirectUrl={'/dashboard'}
+    signUpFallbackRedirectUrl={'/trail'}
     /></main>
   )
 }

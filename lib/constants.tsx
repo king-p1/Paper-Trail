@@ -128,7 +128,8 @@ export const templates = [
     {
     id:'blank',
     label:'Blank Trail',
-    imageUrl:'/blank-document.svg'
+    imageUrl:'/blank-document.svg',
+    template:``
 },
     {
     id:'sofware-proposal',
@@ -147,13 +148,18 @@ export const templates = [
 },
     {
     id:'resume',
-    label:'Resume letter',
+    label:'Resume',
     imageUrl:'/resume.svg'
 },
     {
     id:'letter',
-    label:'Letter  ',
+    label:'Informal Letter  ',
     imageUrl:'/letter.svg'
+},
+    {
+    id:'formal-letter',
+    label:'Formal Letter  ',
+    imageUrl:'/business-letter.svg'
 },
 ]
 

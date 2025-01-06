@@ -30,9 +30,10 @@ import { Ruler } from "@/components/toolbar-extensions/ruler/ruler";
 import { useLiveblocksExtension } from "@liveblocks/react-tiptap";
 import { Threads } from "./threads";
 import { useStorage } from "@liveblocks/react/suspense";
+import { useEffect } from "react";
 
 export const Editor = () => {
-  const { setEditor } = useEditorStore();
+  const { setEditor,editor:keyGrab } = useEditorStore();
   const leftMargin = useStorage((root)=>root.leftMargin);
   const rightMargin = useStorage((root)=>root.rightMargin);
   const liveblocks = useLiveblocksExtension();
@@ -121,6 +122,17 @@ export const Editor = () => {
       },
     },
   });
+
+  useEffect(()=>{ 
+    const down = (e: KeyboardEvent) => {
+        if (e.key === "e" && (e.metaKey || e.ctrlKey)) {
+          e.preventDefault()
+          keyGrab?.chain().focus().addPendingComment().run()
+        }
+      }
+      document.addEventListener("keydown", down)
+      return () => document.removeEventListener("keydown", down)
+    }, [keyGrab])
 
   return (
     <div className="size-full overflow-x-auto px-4 print:p-0 print:bg-white print:overflow-visible ">

@@ -15,7 +15,7 @@ import { Button } from "../ui/button";
 export const TrailTable = ({ trails, loadMore, status }: TrailTableProps) => {
   if (trails === undefined) {
     return (
-      <div className="h-[85vh] w-full flex items-center justify-center">
+      <div className="h-[95vh] w-full flex items-center justify-center">
         <TbLoader3 size={56} className="animate-spin" />
       </div>
     );

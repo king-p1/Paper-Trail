@@ -33,215 +33,222 @@ import { ImUnderline } from "react-icons/im";
 import { LuStrikethrough } from "react-icons/lu";
 import { useEditorStore } from "@/store/use-editor-store";
 import { Button } from "../ui/button";
-import jsPDF from 'jspdf';
-import html2canvas from 'html2canvas';
-import  { NavProps, PDFExportOptions} from '@/types' 
+import jsPDF from "jspdf";
+import html2canvas from "html2canvas";
+import { NavProps, PDFExportOptions } from "@/types";
 import { toast } from "sonner";
+import { useQuery } from "convex/react";
+import { api } from "@/convex/_generated/api";
+import { DeleteDialog } from "../dialogs/delete-dialog";
+import { RenameDialog } from "../dialogs/rename-dialog";
 
-export const MenuBar =  ({trailData}:NavProps) => {
-    const { editor } = useEditorStore();
-    const [rows, setRows] = useState<number>(2); // Default to 2x2 table
-    const [cols, setCols] = useState<number>(2);
+export const MenuBar = ({ trailData }: NavProps) => {
+  const { editor } = useEditorStore();
 
-    const {title} = trailData
-  
-    const handleInputClick = (e: React.MouseEvent) => {
-      e.stopPropagation();
-    };
-  
-    const insertTable = (rows: number, cols: number) => {
-      if (!editor) return;
-      
-      // Validate input ranges
-      const validRows = Math.min(Math.max(1, rows), 100);
-      const validCols = Math.min(Math.max(1, cols), 100);
-      
-      try {
-        editor
-          .chain()
-          .focus()
-          .insertTable({ 
-            rows: validRows, 
-            cols: validCols, 
-            withHeaderRow: false 
-          })
-          .run();
-      } catch (error) {
-        console.error('Error inserting table:', error);
-      }
-    };
-  
-    const handleCustomTableInsert = () => {
-      if (rows && cols && rows > 0 && cols > 0) {
-        insertTable(rows, cols);
-      }
-    };
-  
-    const handleNumericInput = (
-      e: React.ChangeEvent<HTMLInputElement>,
-      setter: (value: number) => void
-    ) => {
-      const value = parseInt(e.target.value);
-      if (!isNaN(value) && value >= 0 && value <= 100) {
-        setter(value);
-      }
-    };
+  const user = useQuery(api.document.UserByConvex);
 
-    const onDownload = (blob:Blob,filename:string) =>{
-        const url = URL.createObjectURL(blob)
-        const a = document.createElement("a")
-        a.href = url
-        a.download = filename
-        a.click()
-    }
-  
 
-    const onExpToJSON =()=>{
-        if(!editor) return
+  const isAdmin =
+    user?.organization_id && user?.organization_role === "org:admin";
+  const isPersonalTrail = user?.organization_id === null || user?.organization_id === "null";
 
-        const content = editor.getJSON()
-        const blob = new Blob([JSON.stringify(content)],{
-            type:"application/json"
+  const [rows, setRows] = useState<number>(2);
+  const [cols, setCols] = useState<number>(2);
+
+  const { title, _id: id } = trailData;
+
+  const handleInputClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+  };
+
+  const insertTable = (rows: number, cols: number) => {
+    if (!editor) return;
+
+    // Validate input ranges
+    const validRows = Math.min(Math.max(1, rows), 100);
+    const validCols = Math.min(Math.max(1, cols), 100);
+
+    try {
+      editor
+        .chain()
+        .focus()
+        .insertTable({
+          rows: validRows,
+          cols: validCols,
+          withHeaderRow: false,
         })
-        onDownload(blob,`${title}.json`)
+        .run();
+    } catch (error) {
+      console.error("Error inserting table:", error);
     }
-    
-    const onExpToHTML =()=>{
-        if(!editor) return
+  };
 
-        const content = editor.getHTML()
-        const blob = new Blob([content],{
-            type:"text/html"
-        })
-        onDownload(blob,`${title}.html`)
+  const handleCustomTableInsert = () => {
+    if (rows && cols && rows > 0 && cols > 0) {
+      insertTable(rows, cols);
     }
-    
-    const exportToPDF = async (
-        editor: any,
-        options: PDFExportOptions = {}
-      ) => {
-        if (!editor) {
-          throw new Error('Editor instance is required');
-        }
-      
-        try {
-          // Get the editor content container
-          const editorContent = document.querySelector('.ProseMirror');
-          if (!editorContent) {
-            throw new Error('Editor content element not found');
-          }
-      
-          // Default options
-          const {
-            filename = `${title}.pdf`,
-            margin = 10,
-            quality = 2,
-            scale = 2
-          } = options;
-      
-          // Create canvas from editor content
-          const canvas = await html2canvas(editorContent as HTMLElement, {
-            scale: scale, // Higher scale for better quality
-            useCORS: true, // Handle external images
-            logging: false,
-            backgroundColor: '#ffffff',
-            windowWidth: editorContent.scrollWidth,
-            windowHeight: editorContent.scrollHeight
-          });
-      
-          // Calculate dimensions
-          const imgWidth = 210; // A4 width in mm
-          const pageHeight = 297; // A4 height in mm
-          const imgHeight = (canvas.height * imgWidth) / canvas.width;
-          
-          // Create PDF
-          const pdf = new jsPDF('p', 'mm', 'a4');
-          let position = margin;
-      
-          // Add image to PDF
-          pdf.addImage(
-            canvas.toDataURL('image/jpeg', quality), 
-            'JPEG', 
-            margin, 
-            position, 
-            imgWidth - (margin * 2), 
-            imgHeight - (margin * 2)
-          );
-      
-          // Handle multiple pages if content is too long
-          let heightLeft = imgHeight - pageHeight;
-          while (heightLeft > 0) {
-            position = heightLeft - imgHeight;
-            pdf.addPage();
-            pdf.addImage(
-              canvas.toDataURL('image/jpeg', quality),
-              'JPEG',
-              margin,
-              position,
-              imgWidth - (margin * 2),
-              imgHeight - (margin * 2)
-            );
-            heightLeft -= pageHeight;
-          }
-      
-          return pdf;
-        } catch (error) {
-          console.error('Error generating PDF:', error);
-          throw error;
-        }
-      };
-      
-      // Usage example:
-    //   const onExportToPDF = async () => {
-    //     if (!editor) return;
-      
-    //     try {
-    //       const loadingToast = toast.loading('Generating PDF...');
-          
-    //       const pdf = await exportToPDF(editor, {
-    //         filename: 'document.pdf',
-    //         margin: 10,
-    //         quality: 2,
-    //         scale: 2
-    //       });
-      
-    //       // Download the PDF
-    //       pdf.save('document.pdf');
-          
-    //       toast.dismiss(loadingToast);
-    //       toast.success('PDF downloaded successfully');
-    //     } catch (error) {
-    //       toast.error('Failed to generate PDF');
-    //       console.error('PDF generation error:', error);
-    //     }
-    //   };
-      
-      // If you need to handle the PDF as a blob instead:
-     
-      const onExportToPDFAsBlob = async () => {
-        if (!editor) return;
-      
-        try {
-          const pdf = await exportToPDF(editor);
-          const blob = pdf.output('blob');
-          onDownload(blob, `${title}.pdf`);
-        } catch (error) {
-          console.error('Error generating PDF blob:', error);
-          toast.error('Failed to generate PDF');
-        }
-      };
-    // ... existing code ...
+  };
 
-    const onExpToTXT =()=>{
-        if(!editor) return
+  const handleNumericInput = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    setter: (value: number) => void
+  ) => {
+    const value = parseInt(e.target.value);
+    if (!isNaN(value) && value >= 0 && value <= 100) {
+      setter(value);
+    }
+  };
 
-        const content = editor.getText()
-        const blob = new Blob([content],{
-            type:"text/plain"
-        })
-        onDownload(blob,`${title}.txt`)
+  const onDownload = (blob: Blob, filename: string) => {
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = filename;
+    a.click();
+  };
+
+  const onExpToJSON = () => {
+    if (!editor) return;
+
+    const content = editor.getJSON();
+    const blob = new Blob([JSON.stringify(content)], {
+      type: "application/json",
+    });
+    onDownload(blob, `${title}.json`);
+  };
+
+  const onExpToHTML = () => {
+    if (!editor) return;
+
+    const content = editor.getHTML();
+    const blob = new Blob([content], {
+      type: "text/html",
+    });
+    onDownload(blob, `${title}.html`);
+  };
+
+  const exportToPDF = async (editor: any, options: PDFExportOptions = {}) => {
+    if (!editor) {
+      throw new Error("Editor instance is required");
     }
 
+    try {
+      // Get the editor content container
+      const editorContent = document.querySelector(".ProseMirror");
+      if (!editorContent) {
+        throw new Error("Editor content element not found");
+      }
+
+      // Default options
+      const {
+        filename = `${title}.pdf`,
+        margin = 10,
+        quality = 2,
+        scale = 2,
+      } = options;
+
+      // Create canvas from editor content
+      const canvas = await html2canvas(editorContent as HTMLElement, {
+        scale: scale, // Higher scale for better quality
+        useCORS: true, // Handle external images
+        logging: false,
+        backgroundColor: "#ffffff",
+        windowWidth: editorContent.scrollWidth,
+        windowHeight: editorContent.scrollHeight,
+      });
+
+      // Calculate dimensions
+      const imgWidth = 210; // A4 width in mm
+      const pageHeight = 297; // A4 height in mm
+      const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+      // Create PDF
+      const pdf = new jsPDF("p", "mm", "a4");
+      let position = margin;
+
+      // Add image to PDF
+      pdf.addImage(
+        canvas.toDataURL("image/jpeg", quality),
+        "JPEG",
+        margin,
+        position,
+        imgWidth - margin * 2,
+        imgHeight - margin * 2
+      );
+
+      // Handle multiple pages if content is too long
+      let heightLeft = imgHeight - pageHeight;
+      while (heightLeft > 0) {
+        position = heightLeft - imgHeight;
+        pdf.addPage();
+        pdf.addImage(
+          canvas.toDataURL("image/jpeg", quality),
+          "JPEG",
+          margin,
+          position,
+          imgWidth - margin * 2,
+          imgHeight - margin * 2
+        );
+        heightLeft -= pageHeight;
+      }
+
+      return pdf;
+    } catch (error) {
+      console.error("Error generating PDF:", error);
+      throw error;
+    }
+  };
+
+  // Usage example:
+  //   const onExportToPDF = async () => {
+  //     if (!editor) return;
+
+  //     try {
+  //       const loadingToast = toast.loading('Generating PDF...');
+
+  //       const pdf = await exportToPDF(editor, {
+  //         filename: 'document.pdf',
+  //         margin: 10,
+  //         quality: 2,
+  //         scale: 2
+  //       });
+
+  //       // Download the PDF
+  //       pdf.save('document.pdf');
+
+  //       toast.dismiss(loadingToast);
+  //       toast.success('PDF downloaded successfully');
+  //     } catch (error) {
+  //       toast.error('Failed to generate PDF');
+  //       console.error('PDF generation error:', error);
+  //     }
+  //   };
+
+  // If you need to handle the PDF as a blob instead:
+
+  const onExportToPDFAsBlob = async () => {
+    if (!editor) return;
+
+    try {
+      const pdf = await exportToPDF(editor);
+      const blob = pdf.output("blob");
+      onDownload(blob, `${title}.pdf`);
+    } catch (error) {
+      console.error("Error generating PDF blob:", error);
+      toast.error("Failed to generate PDF");
+    }
+  };
+  // ... existing code ...
+
+  const onExpToTXT = () => {
+    if (!editor) return;
+
+    const content = editor.getText();
+    const blob = new Blob([content], {
+      type: "text/plain",
+    });
+    onDownload(blob, `${title}.txt`);
+  };
 
   return (
     <div className="flex">
@@ -257,51 +264,79 @@ export const MenuBar =  ({trailData}:NavProps) => {
                 Export{" "}
               </MenubarSubTrigger>
               <MenubarSubContent>
-                <MenubarItem className="flex items-center gap-2"
-                onClick={onExpToJSON}
+                <MenubarItem
+                  className="flex items-center gap-2"
+                  onClick={onExpToJSON}
                 >
                   <LuFileJson className="size-4" />
                   JSON
                 </MenubarItem>
 
-                <MenubarItem className="flex items-center gap-2"
-                onClick={onExpToHTML}
+                <MenubarItem
+                  className="flex items-center gap-2"
+                  onClick={onExpToHTML}
                 >
                   <PiFileHtmlDuotone className="size-4" />
                   HTML
                 </MenubarItem>
 
-                <MenubarItem className="flex items-center gap-2"
-                // onClick={onExportToPDF}
-                onClick={onExportToPDFAsBlob}
+                <MenubarItem
+                  className="flex items-center gap-2"
+                  // onClick={onExportToPDF}
+                  onClick={onExportToPDFAsBlob}
                 >
                   <GrDocumentPdf className="size-4" />
                   PDF
                 </MenubarItem>
 
-                <MenubarItem className="flex items-center gap-2"
-                    onClick={onExpToTXT}
-
+                <MenubarItem
+                  className="flex items-center gap-2"
+                  onClick={onExpToTXT}
                 >
                   <GrDocumentText className="size-4" />
                   Text
                 </MenubarItem>
               </MenubarSubContent>
             </MenubarSub>
-            <MenubarItem className="flex items-center gap-2">
-              <FilePlus className="size-4" />
-              New Trail
-            </MenubarItem>
-            <MenubarSeparator />
-            <MenubarItem className="flex items-center gap-2">
-              <Edit2Icon className="size-4" />
-              Rename
-            </MenubarItem>
+            { isAdmin || isPersonalTrail  && (
+              <>
+                <MenubarItem
+                  className="flex items-center gap-2"
+                  
+                >
+                  <FilePlus className="size-4" />
+                  New Trail
+                </MenubarItem>
+                <MenubarSeparator />
 
-            <MenubarItem className="flex items-center gap-2">
-              <TrashIcon className="size-4" />
-              Remove
-            </MenubarItem>
+
+                <RenameDialog trailId={id} initialTitle={title}>
+                <MenubarItem
+                  className="flex items-center gap-2"
+                  onClick={(e) => e.stopPropagation()}
+                  onSelect={(e) => e.preventDefault()}
+                  >
+                 
+                    <Edit2Icon className="size-4" />
+                    Rename
+                 
+                </MenubarItem>
+                  </RenameDialog>
+
+                  <DeleteDialog trailId={id}
+                   >
+                <MenubarItem className="flex items-center gap-2"
+               onClick={(e) => e.stopPropagation()}
+               onSelect={(e) => e.preventDefault()}
+
+                >
+                   
+                    <TrashIcon className="size-4" />
+                    Remove
+                   </MenubarItem>
+                </DeleteDialog>
+              </>
+            )}
 
             <MenubarSeparator />
             <MenubarItem
@@ -359,14 +394,16 @@ export const MenuBar =  ({trailData}:NavProps) => {
                       className="flex items-center gap-2"
                       onClick={() => insertTable(size, size)}
                     >
-                      <span>{size} x {size}</span>
+                      <span>
+                        {size} x {size}
+                      </span>
                     </MenubarItem>
                   );
                 })}
-                
+
                 {/* Custom table size input */}
                 <MenubarSub>
-                  <MenubarSubTrigger 
+                  <MenubarSubTrigger
                     className="text-sm font-normal py-0.5 px-[7px] rounded-sm hover:bg-muted h-auto flex items-center gap-2"
                     onPointerDown={(e) => e.stopPropagation()}
                   >
@@ -400,7 +437,7 @@ export const MenuBar =  ({trailData}:NavProps) => {
                           onPointerDown={(e) => e.stopPropagation()}
                         />
                       </div>
-                      
+
                       <Button
                         onClick={handleCustomTableInsert}
                         className="w-full"
@@ -428,43 +465,47 @@ export const MenuBar =  ({trailData}:NavProps) => {
                 Text
               </MenubarSubTrigger>
               <MenubarSubContent>
-
-                <MenubarItem className="flex items-center gap-1.5"
-                onClick={() => editor?.chain().focus().toggleBold().run()}
+                <MenubarItem
+                  className="flex items-center gap-1.5"
+                  onClick={() => editor?.chain().focus().toggleBold().run()}
                 >
                   <HiBold className="size-4" />
                   Bold
                   <MenubarShortcut>B</MenubarShortcut>
                 </MenubarItem>
 
-                <MenubarItem className="flex items-center gap-1.5"
-                    onClick={() => editor?.chain().focus().toggleItalic().run()}
-                    >
+                <MenubarItem
+                  className="flex items-center gap-1.5"
+                  onClick={() => editor?.chain().focus().toggleItalic().run()}
+                >
                   <PiTextItalicBold className="size-4" />
                   Italic
                   <MenubarShortcut>I</MenubarShortcut>
                 </MenubarItem>
 
-                <MenubarItem className="flex items-center gap-1.5"
-                
-                onClick={() => editor?.chain().focus().toggleUnderline().run()}
+                <MenubarItem
+                  className="flex items-center gap-1.5"
+                  onClick={() =>
+                    editor?.chain().focus().toggleUnderline().run()
+                  }
                 >
                   <ImUnderline className="size-4" />
                   Underline
                   <MenubarShortcut>U</MenubarShortcut>
                 </MenubarItem>
 
-                <MenubarItem className="flex items-center gap-1.5"
-                    onClick={() => editor?.chain().focus().toggleStrike().run()}
+                <MenubarItem
+                  className="flex items-center gap-1.5"
+                  onClick={() => editor?.chain().focus().toggleStrike().run()}
                 >
                   <LuStrikethrough className="size-4" />
                   Strikethrough
                   <MenubarShortcut>S</MenubarShortcut>
                 </MenubarItem>
-
               </MenubarSubContent>
-              <MenubarItem className="flex items-center gap-1.5"
-              onClick={() => editor?.chain().focus().unsetAllMarks().run()}
+              <MenubarItem
+                className="flex items-center gap-1.5"
+                onClick={() => editor?.chain().focus().unsetAllMarks().run()}
               >
                 <RemoveFormattingIcon className="size-4" />
                 Clear Formatting

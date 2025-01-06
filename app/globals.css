@@ -93,6 +93,35 @@ body {
   }
 }
 
+
+@media screen and  (max-width:640px) {
+  .center-on-sm{
+    text-align: center
+  }
+  .center-on-sm-icon{
+    display: flex;
+    justify-content: center;
+    align-items: center
+  }
+
+  .center-on-sm-footer{
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+  }
+  
+  .center-on-sm-footer-icon{
+    flex-direction: column;
+  }
+
+}
+
+@media screen and  (max-width:510px) {
+  .center-on-sm-btn{
+    flex-direction: column;
+  }
+}
+
 .auth-page {
   @apply flex h-screen w-full flex-col items-center justify-center gap-10 bg-neutral-900;
 }

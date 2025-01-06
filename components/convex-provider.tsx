@@ -1,5 +1,4 @@
 "use client";
-
 import {
   ConvexReactClient,
   AuthLoading,
@@ -28,7 +27,7 @@ export function ConvexClientProvider({ children }: { children: ReactNode }) {
         </Unauthenticated>
 
         <AuthLoading>
-          <div className="h-[89vh] w-full flex items-center justify-center">
+          <div className="h-[95vh] w-full flex items-center justify-center">
             <TbLoader3 size={56} className="animate-spin" />
           </div>
         </AuthLoading>

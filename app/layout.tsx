@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { ThemeProvider } from "@/themes/theme-provider";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
-import { ConvexClientProvider } from "@/components/convex-provider";
 import { Toaster } from "sonner";
 import "@liveblocks/react-ui/styles.css";
 import "@liveblocks/react-tiptap/styles.css";
@@ -30,13 +29,11 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-            <ConvexClientProvider>
               <NuqsAdapter>{children}
                 <Toaster
                 position="top-right"
                 />
               </NuqsAdapter>
-            </ConvexClientProvider>
         </ThemeProvider>
       </body>
     </html>

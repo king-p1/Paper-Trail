@@ -5,7 +5,9 @@ const TrailLayout = ({children}:{
     children : React.ReactNode
 }) => {
   return (
-    <ConvexClientProvider >{children}</ConvexClientProvider>
+      <ConvexClientProvider >
+      {children}
+          </ConvexClientProvider>
   )
 }
 

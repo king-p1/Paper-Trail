@@ -14,11 +14,19 @@ import Image from "next/image";
 import logo from "@/public/paper-trail-logo.png";
 import Link from "next/link";
 import { useRouter } from 'next/navigation';
+import { useAuth } from "@clerk/clerk-react";  
 
 const Home = () => {
   const [hoveredFeature, setHoveredFeature] = useState(null);
 
   const router = useRouter()
+
+  const { isSignedIn } = useAuth();  
+
+  if (isSignedIn) {
+    router.push('/trail'); 
+    return null;  
+  }
 
   const onReRoute = () => {
     router.push('/trail')

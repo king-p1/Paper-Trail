@@ -37,7 +37,7 @@ export const Editor = ({ initialContent }:EditorProps) => {
   const { setEditor, editor: keyGrab } = useEditorStore();
   const leftMargin = useStorage((root) => root.leftMargin);
   const rightMargin = useStorage((root) => root.rightMargin);
-  const liveblocks = useLiveblocksExtension({ initialContent });
+  const liveblocks = useLiveblocksExtension({ initialContent,offlineSupport_experimental:true });
 
   const editor = useEditor({
     onCreate({ editor }) {

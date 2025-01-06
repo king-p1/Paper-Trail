@@ -6,6 +6,8 @@ import { Toaster } from "sonner";
 import "@liveblocks/react-ui/styles.css";
 import "@liveblocks/react-tiptap/styles.css";
 import "./globals.css";
+import { ClerkProvider } from "@clerk/nextjs";
+
 
 export const metadata: Metadata = {
   title: "PaperTrail",
@@ -23,18 +25,22 @@ export default function RootLayout({
       <link rel="icon" href="/paper-trail-logo.png" type="image/svg+xml" />
 
       <body className={` font-mono antialiased`}>
+      <ClerkProvider
+    >
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
           enableSystem
           disableTransitionOnChange
-        >
-              <NuqsAdapter>{children}
+          >
+              <NuqsAdapter>
+                {children}
                 <Toaster
                 position="top-right"
                 />
               </NuqsAdapter>
         </ThemeProvider>
+                </ClerkProvider>
       </body>
     </html>
   );

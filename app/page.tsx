@@ -17,7 +17,7 @@ import { useRouter } from 'next/navigation';
 import { useAuth } from "@clerk/clerk-react";  
 
 const Home = () => {
-  const [hoveredFeature, setHoveredFeature] = useState(null);
+  const [hoveredFeature, setHoveredFeature] = useState<number | null>(null);
 
   const router = useRouter()
 

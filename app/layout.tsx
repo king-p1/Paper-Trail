@@ -1,12 +1,12 @@
-import type { Metadata } from "next";
+ import type { Metadata } from "next";
 import "./globals.css";
-import { ThemeProvider } from "@/themes/theme-provider";
-import { NuqsAdapter } from "nuqs/adapters/next/app";
 import { Toaster } from "sonner";
 import "@liveblocks/react-ui/styles.css";
 import "@liveblocks/react-tiptap/styles.css";
 import "./globals.css";
-import { ClerkProvider } from "@clerk/nextjs";
+import { Suspense } from "react";
+import { Providers } from "./providers/provider";
+import { TbLoader3 } from "react-icons/tb";
 
 
 export const metadata: Metadata = {
@@ -20,27 +20,20 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-       
     <html lang="en" suppressHydrationWarning>
       <link rel="icon" href="/paper-trail-logo.png" type="image/svg+xml" />
 
       <body className={` font-mono antialiased`}>
-      <ClerkProvider
-    >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-          >
-              <NuqsAdapter>
+        
+        <Suspense fallback={ <div className="h-[95vh] w-full flex items-center justify-center">
+              <TbLoader3 size={56} className="animate-spin" />
+            </div>}>
+        <Providers>
                 {children}
-                <Toaster
-                position="top-right"
-                />
-              </NuqsAdapter>
-        </ThemeProvider>
-                </ClerkProvider>
+        </Providers>
+                <Toaster position="top-right"/>
+                </Suspense>
+                
       </body>
     </html>
   );

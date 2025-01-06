@@ -2,13 +2,13 @@ import { TrailRowProps } from "@/types";
 import React from "react";
 import { TableCell, TableRow } from "../ui/table";
 import { TbPaperBag } from "react-icons/tb";
-import { Building2Icon, CircleUserIcon, Router } from "lucide-react";
+import { Building2Icon, CircleUserIcon} from "lucide-react";
 import { format } from "date-fns";
 import { TrailDropdown } from "./trail-dropdown";
 import { useRouter } from "next/navigation";
 
 export const TrailRow = ({ trail }: TrailRowProps) => {
-  const { _creationTime, _id, ownerId, title, organizationId, roomId } = trail;
+  const { _creationTime, _id,  title, organizationId } = trail;
 
   const router = useRouter()
 

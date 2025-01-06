@@ -6,7 +6,7 @@ import {
   Authenticated,
 } from "convex/react";
 import { ReactNode } from "react";
-import { ClerkProvider, useAuth,SignIn } from "@clerk/clerk-react";
+import {   useAuth,SignIn } from "@clerk/clerk-react";
 import { ConvexProviderWithClerk } from "convex/react-clerk";
 import { TbLoader3 } from "react-icons/tb";
 

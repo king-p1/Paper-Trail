@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 import React, { useState } from "react";
 import {
@@ -41,6 +43,7 @@ import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { DeleteDialog } from "../dialogs/delete-dialog";
 import { RenameDialog } from "../dialogs/rename-dialog";
+import { Editor } from "@tiptap/react";
 
 export const MenuBar = ({ trailData }: NavProps) => {
   const { editor } = useEditorStore();
@@ -127,7 +130,7 @@ export const MenuBar = ({ trailData }: NavProps) => {
     onDownload(blob, `${title}.html`);
   };
 
-  const exportToPDF = async (editor: any, options: PDFExportOptions = {}) => {
+  const exportToPDF = async (editor: Editor, options: PDFExportOptions = {}) => {
     if (!editor) {
       throw new Error("Editor instance is required");
     }

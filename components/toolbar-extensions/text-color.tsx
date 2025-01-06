@@ -4,10 +4,9 @@ import {
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useEditorStore } from "@/store/use-editor-store";
-import { type ColorResult,CirclePicker,TwitterPicker } from "react-color";
+import { type ColorResult,TwitterPicker } from "react-color";
 
 export const TextColorBtn = () => {
   const { editor } = useEditorStore();

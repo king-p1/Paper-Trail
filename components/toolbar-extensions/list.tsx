@@ -4,7 +4,7 @@ import {
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import {   AlignCenterIcon, AlignLeftIcon,AlignRightIcon,AlignJustifyIcon, ListIcon, ListOrderedIcon } from "lucide-react";
+import {    ListIcon, ListOrderedIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useEditorStore } from "@/store/use-editor-store";
 

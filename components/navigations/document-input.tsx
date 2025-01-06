@@ -22,7 +22,8 @@ export const DocumentInput = ({ trailData }: NavProps) => {
   
   const user = useQuery(api.document.UserByConvex);
   const isAdmin = user?.organization_id && user?.organization_role === "org:admin";
-  
+  const isPersonalTrail = user?.organization_id === null || user?.organization_id === "null";
+
   const [isUpdating, setIsUpdating] = useState(false);
   const [title, setTitle] = useState<string>(currentTrail?.title ?? "");
   const [lastSavedTitle, setLastSavedTitle] = useState<string>(currentTrail?.title ?? "");
@@ -115,12 +116,12 @@ export const DocumentInput = ({ trailData }: NavProps) => {
         <input
           value={title}
           onChange={handleInputChange}
-          disabled={!isAdmin || isUpdating}
+          disabled={ isUpdating || (!isAdmin && !isPersonalTrail)}
           placeholder="Enter trail title"
           className={cn(
             " max-w-[175px] w-fit border-none shadow-none focus:outline-none text-lg bg-transparent truncate",
             "transition-colors duration-200",
-            !isAdmin && "opacity-75 cursor-not-allowed",
+            !isAdmin && !isPersonalTrail && "opacity-75 cursor-not-allowed",
             isUpdating && "opacity-50"
           )}
         />

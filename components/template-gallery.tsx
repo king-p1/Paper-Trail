@@ -42,7 +42,7 @@ export const TemplateGallery = () => {
         <h3 className="font-medium">Start a new Trail</h3>
         <Carousel>
           <CarouselContent className="-ml-4">
-            {templates.map(({ id, imageUrl, label }) => (
+            {templates.map(({ id, imageUrl, label,initialContent }) => (
               <CarouselItem
                 key={id}
                 className="basis-1/2 sm:basis-1/3 md:basis-1/4 lg:basis-1/5 xl:basis-1/6 2xl:basis-[14.285714%] pl-4"
@@ -50,12 +50,12 @@ export const TemplateGallery = () => {
                 <div
                   className={cn(
                     "aspect-[3/4] flex flex-col gap-y-2.5",
-                    isCreating && "pointer-events-none opacity-50",!isAdmin && 'cursor-not-allowed', isAdmin && isPersonalTrail && 'cursor-pointer'
+                    isCreating && "pointer-events-none opacity-50",  isAdmin && isPersonalTrail && 'cursor-pointer'
                   )}
                 >
                   <button 
                     disabled={isCreating || (!isAdmin && !isPersonalTrail)}
-                    onClick={() => onTemplateClick(label, "")}
+                    onClick={() => onTemplateClick(label, initialContent)}
                     style={{
                         backgroundImage:`url(${imageUrl})`,
                         backgroundSize:'cover',

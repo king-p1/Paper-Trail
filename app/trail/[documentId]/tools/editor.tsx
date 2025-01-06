@@ -31,12 +31,13 @@ import { useLiveblocksExtension } from "@liveblocks/react-tiptap";
 import { Threads } from "./threads";
 import { useStorage } from "@liveblocks/react/suspense";
 import { useEffect } from "react";
+import { EditorProps } from "@/types";
 
-export const Editor = () => {
-  const { setEditor,editor:keyGrab } = useEditorStore();
-  const leftMargin = useStorage((root)=>root.leftMargin);
-  const rightMargin = useStorage((root)=>root.rightMargin);
-  const liveblocks = useLiveblocksExtension();
+export const Editor = ({ initialContent }:EditorProps) => {
+  const { setEditor, editor: keyGrab } = useEditorStore();
+  const leftMargin = useStorage((root) => root.leftMargin);
+  const rightMargin = useStorage((root) => root.rightMargin);
+  const liveblocks = useLiveblocksExtension({ initialContent });
 
   const editor = useEditor({
     onCreate({ editor }) {
@@ -102,14 +103,14 @@ export const Editor = () => {
       Gapcursor,
       Table.configure({
         resizable: true,
-        lastColumnResizable:true
+        lastColumnResizable: true,
       }),
       TableRow,
       TableHeader,
       TableCell,
     ],
     content: `
-         
+
   `,
     immediatelyRender: false,
 
@@ -123,23 +124,23 @@ export const Editor = () => {
     },
   });
 
-  useEffect(()=>{ 
+  useEffect(() => {
     const down = (e: KeyboardEvent) => {
-        if (e.key === "e" && (e.metaKey || e.ctrlKey)) {
-          e.preventDefault()
-          keyGrab?.chain().focus().addPendingComment().run()
-        }
+      if (e.key === "e" && (e.metaKey || e.ctrlKey)) {
+        e.preventDefault();
+        keyGrab?.chain().focus().addPendingComment().run();
       }
-      document.addEventListener("keydown", down)
-      return () => document.removeEventListener("keydown", down)
-    }, [keyGrab])
+    };
+    document.addEventListener("keydown", down);
+    return () => document.removeEventListener("keydown", down);
+  }, [keyGrab]);
 
   return (
     <div className="size-full overflow-x-auto px-4 print:p-0 print:bg-white print:overflow-visible ">
       <Ruler />
       <div className="min-w-max flex justify-center py-4 w-[816px] mx-auto print:py-0 print:w-full print:min-w-0">
         <EditorContent editor={editor} />
-        <Threads  editor={editor}  />
+        <Threads editor={editor} />
       </div>
     </div>
   );

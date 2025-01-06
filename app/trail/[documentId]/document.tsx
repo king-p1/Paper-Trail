@@ -23,7 +23,7 @@ export const Trail =  ({preloadedTrail}:TrailProps) => {
       </div>
 
       <div className="pt-[130px] print:pt-0">
-    <Editor/>
+    <Editor initialContent={trail.initialContent}/>
       </div>
     </div>
         </Room>

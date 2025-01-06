@@ -17,6 +17,10 @@ export interface EditorState {
   setEditor: (editor: Editor | null) => void;
 }
 
+export interface EditorProps {
+  initialContent?: string | undefined;
+}
+
 export interface MarkerProps {
   position: number;
   onMouseDown: () => void;

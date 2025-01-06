@@ -25,14 +25,14 @@ const [search] = useSearchParams()
       <div className="flex items-center justify-between gap-3">
       <HomeNav/>
       <SearchInput/>
-    <SignedIn>
+    <SignedIn >
     <OrganizationSwitcher
     afterCreateOrganizationUrl='/trail'
     afterLeaveOrganizationUrl='/trail'
     afterSelectOrganizationUrl='/trail'
     afterSelectPersonalUrl='/trail'
     />
-      <UserButton />
+      <UserButton  />
     </SignedIn>
       </div>
 

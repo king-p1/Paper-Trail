@@ -34,7 +34,7 @@ export const DeleteDialog = ({children, trailId}: DeleteDialogProps) => {
     try {
       await deleteTrail({id: trailId})
       toast.success('Trail deleted successfully')
-      router.push('/')
+      router.push('/trail')
     } catch (error) {
       console.log(error)
       if (error instanceof ConvexError) {
@@ -49,7 +49,7 @@ export const DeleteDialog = ({children, trailId}: DeleteDialogProps) => {
       }
     } finally {
       setisDeleting(false)
-      router.push('/')
+      // router.push('/trail')
     }
   }
 

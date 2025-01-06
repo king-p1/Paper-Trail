@@ -18,11 +18,15 @@ export function ConvexClientProvider({ children }: { children: ReactNode }) {
       publishableKey={process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY!}
     >
       <ConvexProviderWithClerk useAuth={useAuth} client={convex}>
-        <Authenticated>{children}</Authenticated>
+        <Authenticated >{children}</Authenticated>
 
-        <Unauthenticated>
+        <Unauthenticated >
           <div className="flex flex-col justify-center items-center min-h-screen">
-          <SignIn/>
+          <SignIn 
+           afterSignOutUrl="/" 
+         fallbackRedirectUrl="/trail"
+         
+          />
           </div>
         </Unauthenticated>
 
